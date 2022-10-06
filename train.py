@@ -60,7 +60,7 @@ adam = torch.optim.Adam(model.parameters(), lr=lr)
 loss_fn = nn.MSELoss()
 
 
-# # train
+# train
 # train(100, train_dl, val_dl, model, loss_fn, adam, device=device)
 
 # checkpoint = {
@@ -69,17 +69,17 @@ loss_fn = nn.MSELoss()
 #     'optimizer': adam.state_dict(),
 # }
 
-# utils.save_ckpt(checkpoint, 'gaussian_unet.pth')
+# utils.save_ckpt(checkpoint, 'gaussian_unet_100_grayscale.pth')
 
 
 # continue training
 
-utils.load_ckpt('gaussian_unet_200.pth', model, adam)
+model, adam, _ = utils.load_ckpt('gaussian_unet_100_grayscale.pth', model, adam)
 train(100, train_dl, val_dl, model, loss_fn, adam, device=device)
 checkpoint = {
     'state_dict': model.state_dict(),
-    'epoch' : 300,
+    'epoch' : 200,
     'optimizer': adam.state_dict(),
 }
 
-utils.save_ckpt(checkpoint, 'gaussian_net_300.pth')
+utils.save_ckpt(checkpoint, 'gaussian_unet_200_grayscale.pth')

@@ -19,7 +19,7 @@ def myimshow(image, ax=plt):
     image = (image + 1) / 2
     image[image < 0] = 0
     image[image > 1] = 1
-    h = ax.imshow(image)
+    h = ax.imshow(image, cmap='gray')
     ax.axis('off')
     return h
 
@@ -31,12 +31,12 @@ model = UDnCNN(6).to(device)
 lr = 1e-4
 adam = torch.optim.Adam(model.parameters(), lr=lr)
 
-utils.load_ckpt('gaussian_net_200.pth', model, adam)
+model, adam, _ = utils.load_ckpt('gaussian_unet_200_grayscale.pth', model, adam)
 
 
 # datasets to test upon
-test_ds = NoisyBSDSDataset('BSDS300/images/test', image_size=(800, 400))
-idx = 0
+test_ds = NoisyBSDSDataset('BSDS300/images/test', image_size=(200, 200))
+idx = 10
 for i, name in enumerate(os.listdir('BSDS300/images/test')):
     if name == 'spiral.jpg':
         idx = i
@@ -57,7 +57,7 @@ with torch.no_grad():
     y = model(noisy)
 
 images.append(y[0])
-images.append(1*(y[0]-noisy[0]))
+images.append(2*(y[0]-noisy[0]))
 
 for i in range(len(images)):
     myimshow(images[i], ax=axs[i])

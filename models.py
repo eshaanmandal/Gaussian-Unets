@@ -17,9 +17,9 @@ class UDnCNN(nn.Module):
 
         # convolution layers
         self.conv = nn.ModuleList()
-        self.conv.append(nn.Conv2d(3, C, 3, padding=1))
+        self.conv.append(nn.Conv2d(1, C, 3, padding=1)) # grayscale images
         self.conv.extend([nn.Conv2d(C, C, 3, padding=1) for _ in range(D)])
-        self.conv.append(nn.Conv2d(C, 3, 3, padding=1))
+        self.conv.append(nn.Conv2d(C, 1, 3, padding=1)) # grayscale output
         # apply He's initialization
         for i in range(len(self.conv[:-1])):
             nn.init.kaiming_normal_(

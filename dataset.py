@@ -36,10 +36,12 @@ class NoisyBSDSDataset(td.Dataset):
         
         clean = clean.crop([i, j, i+self.image_size[0], j+self.image_size[1]])
         transform = tv.transforms.Compose([
+            # convert image to grayscale
+            tv.transforms.Grayscale(num_output_channels=1),
             # convert it to a tensor
             tv.transforms.ToTensor(),
             # normalize it to the range [−1, 1]
-            tv.transforms.Normalize((.5, .5, .5), (.5, .5, .5))
+            tv.transforms.Normalize((.5), (.5))
             ])
         clean = transform(clean)
         
